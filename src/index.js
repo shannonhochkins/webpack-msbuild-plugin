@@ -188,7 +188,7 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
      */
     runProjectHook(name, project, output) {
         try {
-            project.script.hooks[name](output);
+            project.hooks[name](output);
         } catch(e) {
             // hook must not exist or arguments passed were wrong.
         }
