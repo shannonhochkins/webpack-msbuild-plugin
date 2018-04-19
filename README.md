@@ -29,16 +29,16 @@ Building a project file when webpack has finished compilation, In `webpack.confi
 const WebpackMSBuildPlugin = require('webpack-msbuild-plugin');
 
 module.exports = {
-  ...
-  ...
-  plugins: [
-    new WebpackMSBuildPlugin({
-        onWebpackDone: {                        
-            projects: ['path/to/project.csproj']
-        }
-    })
-  ],
-  ...
+    ...
+    ...
+    plugins: [
+        new WebpackMSBuildPlugin({
+            onWebpackDone: {                        
+                projects: ['path/to/project.csproj']
+            }
+        })
+    ],
+    ...
 }
 ```
 
@@ -48,23 +48,23 @@ If you need to configure your msbuild script with specifc options, you can do th
 const WebpackMSBuildPlugin = require('webpack-msbuild-plugin');
 
 module.exports = {
-  ...
-  ...
-  plugins: [
-    new WebpackMSBuildPlugin({
-        onWebpackDone: {      
-        	options : {
-              targets: !this.env.dev ? ["Clean", "Build"] : ["Build"],
-              configuration: !this.env.dev ? 'Release' : 'Debug',
-              verbosity: 'detailed',
-              maxcpucount: 0,
-              toolsVersion: 14.0
-            },
-            projects: ['path/to/project.csproj']
-        }
-    })
-  ],
-  ...
+    ...
+    ...
+    plugins: [
+        new WebpackMSBuildPlugin({
+            onWebpackDone: {      
+                options : {
+                    targets: !this.env.dev ? ["Clean", "Build"] : ["Build"],
+                    configuration: !this.env.dev ? 'Release' : 'Debug',
+                    verbosity: 'detailed',
+                    maxcpucount: 0,
+                    toolsVersion: 14.0
+                },
+                projects: ['path/to/project.csproj']
+            }
+        })
+    ],
+    ...
 }
 ```
 
@@ -91,67 +91,67 @@ are available for EACH parent hook.
 const WebpackMSBuildPlugin = require('webpack-msbuild-plugin');
 
 module.exports = {
-  ...
-  ...
-  plugins: [
-    new WebpackMSBuildPlugin({
-        onWebpackDone: {      
-			// will extend the script defaults
-        	options : {
-              targets: !this.env.dev ? ["Clean", "Build"] : ["Build"],
-              configuration: !this.env.dev ? 'Release' : 'Debug',
-              verbosity: 'detailed',
-              maxcpucount: 0,
-              toolsVersion: 14.0
-            },
-            // if true, it will attempt to run all scripts in parallel, this requires you to
-            // have all your targets and dependencies setup correctly.
-            parallel: true|false
-            // projects can be specified as a string if you don't need to use hooks per project
-            projects: ['path/to/project.csproj'],
-            // or as array of object(s) (or combination of both)
-            projects: ['path/to/project.csproj', {
-            	// path to prokect
-            	project : 'path/to/project.csproj',                
-                // will extend the onWebpackDone.options object
+    ...
+    ...
+    plugins: [
+        new WebpackMSBuildPlugin({
+            onWebpackDone: {      
+                // will extend the script defaults
                 options : {
-                	verbosity: 'quiet'
-				},
-                // we can bind to individual project hooks here
-                hooks: {
-                	onStart(data) {
-                    	// called when this particular project starts building
+                    targets: !this.env.dev ? ["Clean", "Build"] : ["Build"],
+                    configuration: !this.env.dev ? 'Release' : 'Debug',
+                    verbosity: 'detailed',
+                    maxcpucount: 0,
+                    toolsVersion: 14.0
+                },
+                // if true, it will attempt to run all scripts in parallel, this requires you to
+                // have all your targets and dependencies setup correctly.
+                parallel: true|false
+                // projects can be specified as a string if you don't need to use hooks per project
+                projects: ['path/to/project.csproj'],
+                // or as array of object(s) (or combination of both)
+                projects: ['path/to/project.csproj', {
+                    // path to prokect
+                    project : 'path/to/project.csproj',                
+                    // will extend the onWebpackDone.options object
+                    options : {
+                        verbosity: 'quiet'
                     },
-                    onData(data) {
-                    	// called whenever the child process stdout or stderr receives output
-                        // from the msbuild script
+                    // we can bind to individual project hooks here
+                    hooks: {
+                        onStart(data) {
+                            // called when this particular project starts building
+                        },
+                        onData(data) {
+                            // called whenever the child process stdout or stderr receives output
+                            // from the msbuild script
+                        },
+                        onError(data) {
+                            // if there's any issues, it will raise them here.
+                        },
+                        onDone(data) {
+                            // called when this particular project has finished building
+                        },
+                    }
+                }],
+                hooks : {
+                    onStart(data) {
+                        // called when all the project scripts have been setup and are about to start executing
+                    },
+                    onProgress(data) {
+                        // only called if there's more than 1 project, it will basically recieve data telling the output console
+                        // how many projects are left, this is called at the END of a single script executing
                     },
                     onError(data) {
-                    	// if there's any issues, it will raise them here.
+                        // if there's any errors in the script
                     },
                     onDone(data) {
-                    	// called when this particular project has finished building
-                    },
+                        // when all projects have executed successfully
+                    }
                 }
-            }],
-            hooks : {
-            	onStart(data) {
-                	// called when all the project scripts have been setup and are about to start executing
-                },
-                onProgress(data) {
-                    // only called if there's more than 1 project, it will basically recieve data telling the output console
-                    // how many projects are left, this is called at the END of a single script executing
-                },
-                onError(data) {
-                	// if there's any errors in the script
-                },
-                onDone(data) {
-                	// when all projects have executed successfully
-                }
-			}
-        }
-    })
-  ],
+            }
+        })
+    ],
   ...
 }
 ```
@@ -163,7 +163,7 @@ module.exports = {
 The options object (per parent hook) group, will extend the following defaults for the msbuild script, most of these options are all [documented here](https://msdn.microsoft.com/en-us/library/ms164311.aspx).
 ```js
 {
-	targets: ['Rebuild'],
+    targets: ['Rebuild'],
     configuration: 'Release',
     toolsVersion: 14.0,
     properties: {},
@@ -194,24 +194,24 @@ If you want to stop the plugin logging out to the console, or replace it with yo
 const WebpackMSBuildPlugin = require('webpack-msbuild-plugin');
 
 module.exports = {
-  ...
-  ...
-  plugins: [
-    new WebpackMSBuildPlugin({
-        outputConsole: {
-        	log(data) {
-            	// data is an object, containing a type, msg and extra data like what project is sending the output, 
-                // or where abouts in the chain is it throwing the output
-				console.log(data.msg);
-			},
-            error(data) {
-            	// data is an object, containing a type, msg and extra data like what project is sending the output, 
-                // or where abouts in the chain is it throwing the output
-				process.exit(0);
-			}
-		}
-    })
-  ],
+    ...
+    ...
+    plugins: [
+        new WebpackMSBuildPlugin({
+            outputConsole: {
+                log(data) {
+                    // data is an object, containing a type, msg and extra data like what project is sending the output, 
+                    // or where abouts in the chain is it throwing the output
+                    console.log(data.msg);
+                },
+                error(data) {
+                    // data is an object, containing a type, msg and extra data like what project is sending the output, 
+                    // or where abouts in the chain is it throwing the output
+                    process.exit(0);
+                }
+            }
+        })
+    ],
   ...
 }
 ```
@@ -225,23 +225,23 @@ It's easy to tell, we can write a very simple function to intercept the script b
 const WebpackMSBuildPlugin = require('webpack-msbuild-plugin');
 
 module.exports = {
-  ...
-  ...
-  plugins: [
-    new WebpackMSBuildPlugin({
-        onWebpackDone: {                        
-            projects: [{
-            	project: 'path/to/project.csproj',
-                hooks : {
-                	onStart(data) {
-                    	// this will basically log out a script you should be able to copy and paste into a CLI and watch it run manually.
-                    	console.log(data.project.script.executable,data.project.script.args.join(' '))
+    ...
+    ...
+    plugins: [
+        new WebpackMSBuildPlugin({
+            onWebpackDone: {                        
+                projects: [{
+                    project: 'path/to/project.csproj',
+                    hooks : {
+                        onStart(data) {
+                            // this will basically log out a script you should be able to copy and paste into a CLI and watch it run manually.
+                            console.log(data.project.script.executable,data.project.script.args.join(' '))
+                        }
                     }
-				}
-            }]
-        }
-    })
-  ],
+                }]
+            }
+        })
+    ],
   ...
 }
 ```
