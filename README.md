@@ -5,7 +5,17 @@
 
 This plugin allows you to run msbuild scripts at a specific times using the Webpack compilation hooks. We can run multiple projects, a solution file or a combination of all at once. Script is fully configurable by the options object either at the hook level or at the project level.
 
-_**This plugin was build for Windows 10 and Windows Server 2012 - it is not tested in any other OS and most likely will have issues. Written in Node v9 for webpack 4, webpack 3 won't work as they've changed the hook functionality (can work with very little work)**_
+_This plugin was built for Windows 10 and Windows Server 2012 - it is not tested in any other OS and most likely will have issues. Written in Node v9 for webpack 4, webpack 3 won't work as they've changed the hook functionality (can work with very little work)_
+
+
+1. [Installation](#installation)
+2. [Setup](#setup)
+3. [Root API Options](#root-api-options)
+4. [Parent Hook API options](#parent-hook-api-options)
+5. [MSBuild Script Defaults](#msbuild-script-defaults)
+6. [Custom Logger](#custom-logger)
+7. [What is the output script it will generate?](#what-is-the-output-script-it-will-generate)
+
 _
 ## Installation
 
@@ -58,7 +68,7 @@ module.exports = {
 }
 ```
 
-It will automatically attempt the locate the msbuild.exe file, if it can't you can always use the `msbuildPath` option inside your options object, it will automatically execute and generate a script from your options, the above example will generate the script below which extends the options object with the [Script Defaults](#script-defaults)
+It will automatically attempt the locate the msbuild.exe file, if it can't you can always use the `msbuildPath` option inside your options object, it will automatically execute and generate a script from your options, the above example will generate the script below which extends the options object with the [Script Defaults](#msbuild-script-defaults), want to see what your script will output? [see here](#what-is-the-output-script-it-will-generate)
 
 ```bash
 "C:/Program Files (x86)/MSBuild/14.0/Bin/amd64/MSBuild.exe path/to/project.csproj /target:Release /verbosity:detailed /target:Release /toolsversion:14.0 /nologo /maxcpucount /property:Configuration=Release"
@@ -150,7 +160,7 @@ module.exports = {
 
 ### MSBuild Script Defaults
 
-The options object (per parent hook) group, will extend the following defaults for the msbuild script, most of these options are all [documented here](#https://msdn.microsoft.com/en-us/library/ms164311.aspx).
+The options object (per parent hook) group, will extend the following defaults for the msbuild script, most of these options are all [documented here](https://msdn.microsoft.com/en-us/library/ms164311.aspx).
 ```js
 {
 	targets: ['Rebuild'],
