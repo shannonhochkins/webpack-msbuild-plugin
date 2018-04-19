@@ -245,3 +245,9 @@ module.exports = {
   ...
 }
 ```
+
+
+### Development
+
+If you want to contribute or extend this plugin, clone the repository and run npm install, then there's only two scripts: npm run build, npm run watch.
+There's no tests (yet), make your changes in src and the output lib will update.

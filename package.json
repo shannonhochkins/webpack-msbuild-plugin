@@ -17,8 +17,8 @@
   "bugs": {
     "url": "https://github.com/shannonhochkins/webpack-msbuild-plugin/issues"
   },
-  "publishConfig":{
-    "registry":"https://registry.npmjs.org/"
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "homepage": "https://github.com/shannonhochkins/webpack-msbuild-plugin#readme",
   "devDependencies": {
