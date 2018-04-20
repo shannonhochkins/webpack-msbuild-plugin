@@ -231,7 +231,7 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
             const output = {
                 type : 'done',
                 project,
-                projects,
+                projects: this.options[project.executionType].projects,
                 percentageInt: percentage,
                 percentage: `${percentage}%`,
                 msg : code
