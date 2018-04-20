@@ -226,24 +226,35 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
             }, project);
         });
         proc.on('close', code => {
+            this.options[project.executionType].completedCount += 1;
+            const percentage = this.options[project.executionType].completedCount / this.options[project.executionType].projects.length * 100;
             const output = {
                 type : 'done',
                 project,
+                projects,
+                percentageInt: percentage,
+                percentage: `${percentage}%`,
                 msg : code
             };
             this.runProjectHook('onDone', project, output);
             this.log(output, project);
-            this.options[project.executionType].completedCount += 1;
+            
             if (this.options[project.executionType].projects.length == this.options[project.executionType].completedCount) {
                 // we've finished and closed all scripts
                 this.runTypeHook(project.executionType, 'onDone', {
                     type : 'done',
+                    project,
+                    percentageInt: percentage,
+                    percentage: `${percentage}%`,
                     projects: this.options[project.executionType].projects,
                     msg : `Completed all ${this.options[project.executionType].projects.length} project scripts: ${project.executionType}`
                 });
             } else {
                 this.runTypeHook(project.executionType, 'onProgress', {
                     type : 'progress',
+                    project,
+                    percentageInt: percentage,
+                    percentage: `${percentage}%`,
                     projects: this.options[project.executionType].projects,
                     msg : `Completed ${this.options[project.executionType].completedCount} of ${this.options[project.executionType].projects.length} project scripts: ${project.executionType}`
                 });

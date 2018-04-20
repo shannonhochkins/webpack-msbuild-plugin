@@ -68,7 +68,7 @@ module.exports = {
 }
 ```
 
-It will automatically attempt the locate the msbuild.exe file, if it can't you can always use the `msbuildPath` option inside your options object, it will automatically execute and generate a script from your options, the above example will generate the script below which extends the options object with the [Script Defaults](#msbuild-script-defaults), want to see what your script will output? [see here](#what-is-the-output-script-it-will-generate)
+It will automatically attempt to locate the msbuild.exe file, if it can't you can always use the `msbuildPath` option inside your options object, it will automatically execute and generate a script from your options, the above example will generate the script below which extends the options object with the [Script Defaults](#msbuild-script-defaults), want to see what your script will output? [see here](#what-is-the-output-script-it-will-generate)
 
 ```bash
 "C:/Program Files (x86)/MSBuild/14.0/Bin/amd64/MSBuild.exe path/to/project.csproj /target:Release /verbosity:detailed /target:Release /toolsversion:14.0 /nologo /maxcpucount /property:Configuration=Release"
@@ -84,7 +84,7 @@ It will automatically attempt the locate the msbuild.exe file, if it can't you c
 ### Parent Hook API options
 **onWebpackPre**, **onWebpackPost**, **onWebpackDone**
 
-These three parent hook configuration objects all have the same functionality, they just executate at different times, here's an extended demo of what options
+These three parent hook configuration objects all have the same functionality, they just execute at different times, here's an extended demo of what options
 are available for EACH parent hook.
 
 ```js
