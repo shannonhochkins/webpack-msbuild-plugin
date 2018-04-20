@@ -238,7 +238,14 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
             };
             this.runProjectHook('onDone', project, output);
             this.log(output, project);
-            
+            this.runTypeHook(project.executionType, 'onProgress', {
+                type : 'progress',
+                project,
+                percentageInt: percentage,
+                percentage: `${percentage}%`,
+                projects: this.options[project.executionType].projects,
+                msg : `Completed ${this.options[project.executionType].completedCount} of ${this.options[project.executionType].projects.length} project scripts: ${project.executionType}`
+            });
             if (this.options[project.executionType].projects.length == this.options[project.executionType].completedCount) {
                 // we've finished and closed all scripts
                 this.runTypeHook(project.executionType, 'onDone', {
@@ -249,16 +256,7 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
                     projects: this.options[project.executionType].projects,
                     msg : `Completed all ${this.options[project.executionType].projects.length} project scripts: ${project.executionType}`
                 });
-            } else {
-                this.runTypeHook(project.executionType, 'onProgress', {
-                    type : 'progress',
-                    project,
-                    percentageInt: percentage,
-                    percentage: `${percentage}%`,
-                    projects: this.options[project.executionType].projects,
-                    msg : `Completed ${this.options[project.executionType].completedCount} of ${this.options[project.executionType].projects.length} project scripts: ${project.executionType}`
-                });
-            }
+            }            
             if (resolve) resolve(output);
         });
     }
