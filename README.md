@@ -1,6 +1,5 @@
 [![npm version](https://badge.fury.io/js/webpack-msbuild-plugin.svg)](https://badge.fury.io/js/webpack-msbuild-plugin)
-![](https://reposs.herokuapp.com/?path=1337programming/webpack-msbuild-plugin)
-[![npm](https://img.shields.io/npm/dm/webpack-msbuild-plugin.svg)]()
+[![npm](https://img.shields.io/npm/dt/webpack-msbuild-plugin.svg)]()
 # Webpack MSBuild Plugin
 
 This plugin allows you to run msbuild scripts at a specific times using the Webpack compilation hooks. We can run multiple projects, a solution file or a combination of all at once. Script is fully configurable by the options object either at the hook level or at the project level.
