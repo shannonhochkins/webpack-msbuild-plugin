@@ -1,6 +1,6 @@
 {
   "name": "webpack-msbuild-plugin",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A webpack plugin to handle the automation of running msbuild scripts",
   "main": "lib/index.js",
   "scripts": {
