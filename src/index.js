@@ -226,6 +226,12 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
             }, project);
         });
         proc.on('close', code => {
+            if (code >= 1) this.error({
+                type: 'error',
+                project: project,
+                msg: `Failed with code: ${code}`,
+                projects: this.options[project.executionType].projects
+            }, project);
             this.options[project.executionType].completedCount += 1;
             const percentage = this.options[project.executionType].completedCount / this.options[project.executionType].projects.length * 100;
             const output = {
