@@ -66,6 +66,7 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
     error(out, project) {
         this.options.outputConsole.error(this.hasCustomOutputError ? out : out.msg);
         if (project) this.runProjectHook('onError', project, out);
+        this.rejector(out);
         throw new Error(out.msg);
     }
 
@@ -322,8 +323,9 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
      * @returns {undefined} - no return value
      * @memberof WebpackMSBuildPlugin
      */
-    async executeScripts(type) {
+    async executeScripts(type, resolver, rejector) {
         const groupType = this.options[type];  
+        this.rejector = rejector;
         if (typeof groupType != 'object' || !groupType.projects || !groupType.projects.length) return;
         if (typeof groupType.parallel !== 'boolean') {
             this.error({
@@ -350,6 +352,8 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
                 await this.handleScriptAsync(project);                
             } 
         }
+        // resolve the current chain
+        resolver();
     }
 
     /**
@@ -364,14 +368,20 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
      */
     apply(compiler) {
         const $plugin = 'WebpackMSBuild';
-        compiler.hooks.compile.tap($plugin, compilation => {
-            this.executeScripts('onWebpackPre');
+        compiler.hooks.beforeCompile.tapPromise($plugin, compilation => {
+            return new Promise((resolve, reject) => {
+                this.executeScripts('onWebpackPre', resolve, reject);
+            });
         });
-        compiler.hooks.afterEmit.tap($plugin, (compilation, callback) => {
-            this.executeScripts('onWebpackPost');
+        compiler.hooks.afterEmit.tapPromise($plugin, (compilation, callback) => {
+            return new Promise((resolve, reject) => {
+                this.executeScripts('onWebpackPost', resolve, reject);
+            });
         });
-        compiler.hooks.done.tap($plugin, () => {
-            this.executeScripts('onWebpackDone');
+        compiler.hooks.done.tapPromise($plugin, () => {
+            return new Promise((resolve, reject) => {
+                this.executeScripts('onWebpackDone', resolve, reject);
+            });
         });
     }
 }
