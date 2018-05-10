@@ -326,7 +326,7 @@ export default class WebpackMSBuildPlugin extends ScriptGenerator {
     async executeScripts(type, resolver, rejector) {
         const groupType = this.options[type];  
         this.rejector = rejector;
-        if (typeof groupType != 'object' || !groupType.projects || !groupType.projects.length) return;
+        if (typeof groupType != 'object' || !groupType.projects || !groupType.projects.length) return resolver();
         if (typeof groupType.parallel !== 'boolean') {
             this.error({
                 type : 'error',
