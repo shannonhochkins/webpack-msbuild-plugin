@@ -2,6 +2,8 @@
 [![npm](https://img.shields.io/npm/dt/webpack-msbuild-plugin.svg)]()
 # Webpack MSBuild Plugin
 
+THIS PLUGIN IS NO LONGER SUPPORTED
+
 This plugin allows you to run msbuild scripts at specific times using the Webpack compilation hooks. We can run multiple projects, a solution file or a combination of all at once. Script is fully configurable by the options object either at the hook level or at the project level.
 
 _This plugin was built for Windows 10 and Windows Server 2012 - it is not tested in any other OS and most likely will have issues. Written in Node v9 for webpack 4, webpack 3 won't work as they've changed the hook functionality (can work with very little work)_
